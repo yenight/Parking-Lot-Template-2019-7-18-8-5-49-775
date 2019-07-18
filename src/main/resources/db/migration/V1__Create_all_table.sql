@@ -1,0 +1,10 @@
+create table criminal_case (id bigint not null, incident_time bigint not null, name varchar(255) not null, procuratorate_id bigint not null, specific_information_id bigint, primary key (id));
+create table procuratorate (id bigint not null, procuratorate_name varchar(50) not null, primary key (id));
+create table procuratorate_prosecutor_list (procuratorate_id bigint not null, prosecutor_list_id bigint not null);
+create table prosecutor (id bigint not null, id_number varchar(255), primary key (id));
+create table specific_information (id bigint not null, objective_description varchar(255) not null, subjective_description varchar(255) not null, primary key (id));
+alter table procuratorate_prosecutor_list add constraint UK_cajk5a838aw15ab6dcuby11l5 unique (prosecutor_list_id);
+alter table criminal_case add constraint FKnlvv52hcrep9s3vevtv6dl4te foreign key (procuratorate_id) references procuratorate;
+alter table criminal_case add constraint FKd5w5ui78k14prss34mkvisygl foreign key (specific_information_id) references specific_information;
+alter table procuratorate_prosecutor_list add constraint FKsnya7lgyxvit4httl3cq1a525 foreign key (prosecutor_list_id) references prosecutor;
+alter table procuratorate_prosecutor_list add constraint FKslk83hpmhr2oqc3fkky487nw6 foreign key (procuratorate_id) references procuratorate;
