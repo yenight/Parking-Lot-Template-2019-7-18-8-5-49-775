@@ -9,7 +9,17 @@ buildscript {
     dependencies {
         classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
         classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.0'
+        classpath "org.flywaydb:flyway-gradle-plugin:5.2.4"
     }
+}
+
+plugins {
+    id "org.flywaydb.flyway" version "5.2.4"
+}
+
+flyway {
+    url = 'jdbc:h2:file:./target/foobar'
+    user = 'sa'
 }
 
 apply plugin: 'java'
@@ -32,6 +42,7 @@ dependencies {
     implementation 'com.h2database:h2'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.flywaydb:flyway-core'
+    implementation group: 'org.json', name: 'json', version: '20180813'
     
     testImplementation 'org.mockito:mockito-core:2.+'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
