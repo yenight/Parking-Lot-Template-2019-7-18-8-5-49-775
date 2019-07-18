@@ -43,9 +43,6 @@ public class ParkingLotControllerTest {
     @Test
     @Transactional
     public void should_return_parking_lot_when_request_create_a_parking_lot_api() throws Exception {
-//        List<ParkingLot> parkingLots = new ArrayList<>();
-//        when(parkingLotRepository.findAll()).thenReturn(parkingLots);
-
         mockMvc.perform(post("/parking-lots")
             .contentType(MediaType.APPLICATION_JSON_UTF8)
             .content("{\n" +
@@ -57,5 +54,20 @@ public class ParkingLotControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("asdas"));
+    }
+
+    @Test
+    @Transactional
+    public void should_return_none_when_request_create_a_parking_lot_api_with_null_name() throws Exception {
+        mockMvc.perform(post("/parking-lots")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content("{\n" +
+                        "\t\"capacity\": 10,\n" +
+                        "\t\"name\": null,\n" +
+                        "\t\"position\": \"vvv\"\n" +
+                        "}")
+        )
+                .andDo(print())
+                .andExpect(status().isBadRequest());
     }
 }
