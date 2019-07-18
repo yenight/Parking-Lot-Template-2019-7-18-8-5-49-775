@@ -3,9 +3,15 @@ package com.thoughtworks.parking_lot.controller;
 import com.thoughtworks.parking_lot.model.ParkingLot;
 import com.thoughtworks.parking_lot.repository.ParkingLotRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class ParkingLotController {
@@ -30,6 +36,13 @@ public class ParkingLotController {
             return 200;
         }
         return 400;
+    }
+
+    @GetMapping("/parking-lots")
+    public ResponseEntity getParkingLots(@RequestParam int page, @RequestParam int pageSize) {
+        Pageable pageable = PageRequest.of(page, pageSize, Sort.Direction.ASC, "id");
+        Page<ParkingLot> parkingLots =  parkingLotRepository.findAll(pageable);
+        return ResponseEntity.ok(parkingLots.getContent());
     }
 
 }

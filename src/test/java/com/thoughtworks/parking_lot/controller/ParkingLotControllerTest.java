@@ -24,8 +24,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -78,5 +77,33 @@ public class ParkingLotControllerTest {
         mockMvc.perform(delete("/parking-lots/1"))
                 .andDo(print())
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    @Transactional
+    public void should_return_parking_lots_when_request_find_parking_lots_with_page_api() throws Exception {
+        mockMvc.perform(get("/parking-lots?page=0&pageSize=3"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().json("[\n" +
+                        "    {\n" +
+                        "        \"id\": 1,\n" +
+                        "        \"name\": \"aaa\",\n" +
+                        "        \"capacity\": 20,\n" +
+                        "        \"position\": \"zhuhai\"\n" +
+                        "    },\n" +
+                        "    {\n" +
+                        "        \"id\": 2,\n" +
+                        "        \"name\": \"bbb\",\n" +
+                        "        \"capacity\": 50,\n" +
+                        "        \"position\": \"guangzhou\"\n" +
+                        "    },\n" +
+                        "    {\n" +
+                        "        \"id\": 3,\n" +
+                        "        \"name\": \"ccc\",\n" +
+                        "        \"capacity\": 40,\n" +
+                        "        \"position\": \"shenzhen\"\n" +
+                        "    }\n" +
+                        "]"));
     }
 }
