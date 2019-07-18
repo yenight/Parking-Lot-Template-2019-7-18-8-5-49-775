@@ -120,4 +120,21 @@ public class ParkingLotControllerTest {
                         "    \"position\": \"zhuhai\"\n" +
                         "}"));
     }
+
+    @Test
+    @Transactional
+    public void should_return_parking_lot_when_request_update_capacity_api() throws Exception {
+        mockMvc.perform(put("/parking-lots/1")
+            .contentType(MediaType.APPLICATION_JSON_UTF8)
+            .content("1000")
+        )
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().json("{\n" +
+                        "    \"id\": 1,\n" +
+                        "    \"name\": \"aaa\",\n" +
+                        "    \"capacity\": 1000,\n" +
+                        "    \"position\": \"zhuhai\"\n" +
+                        "}"));
+    }
 }

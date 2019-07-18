@@ -40,7 +40,7 @@ public class ParkingLotController {
 
     @GetMapping("/parking-lots")
     public ResponseEntity getParkingLots(@RequestParam(defaultValue = "0") int page,
-                                         @RequestParam(defaultValue = "0") int pageSize) {
+                                         @RequestParam(defaultValue = "15") int pageSize) {
         Pageable pageable = PageRequest.of(page, pageSize, Sort.Direction.ASC, "id");
         Page<ParkingLot> parkingLots =  parkingLotRepository.findAll(pageable);
         return ResponseEntity.ok(parkingLots.getContent());
@@ -50,5 +50,13 @@ public class ParkingLotController {
     public ResponseEntity getParkingLotById(@PathVariable int id) {
         ParkingLot parkingLot =  parkingLotRepository.findById((long)id).orElse(null);
         return ResponseEntity.ok(parkingLot);
+    }
+
+    @PutMapping("/parking-lots/{id}")
+    public ResponseEntity updateParkingLotById(@PathVariable long id, @RequestBody int newCount) {
+        ParkingLot parkingLot = parkingLotRepository.findById(id).orElse(null);
+        parkingLot.setCapacity(newCount);
+        ParkingLot savedParkingLot = parkingLotRepository.saveAndFlush(parkingLot);
+        return ResponseEntity.ok(savedParkingLot);
     }
 }
