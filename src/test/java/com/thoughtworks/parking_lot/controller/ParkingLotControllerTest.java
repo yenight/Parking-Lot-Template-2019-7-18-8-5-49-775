@@ -46,14 +46,13 @@ public class ParkingLotControllerTest {
         mockMvc.perform(post("/parking-lots")
             .contentType(MediaType.APPLICATION_JSON_UTF8)
             .content("{\n" +
-                    "\t\"capacity\": 10,\n" +
-                    "\t\"name\": \"asdas\",\n" +
-                    "\t\"position\": \"vvv\"\n" +
-                    "}")
-        )
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("asdas"));
+                    "\t\"name\": \"william\",\n" +
+                    "\t\"capacity\": 100,\n" +
+                    "\t\"position\": \"vvwqeewqewqv\"\n" +
+                    "}"))
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.name").value("william"));
     }
 
     @Test

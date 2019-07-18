@@ -25,7 +25,7 @@ public class ParkingLot {
     public ParkingLot() {
     }
 
-    public ParkingLot(@Min(0) int capacity, String name, String position) {
+    public ParkingLot(String name, @Min(0) int capacity, String position) {
         this.name = name;
         this.capacity = capacity;
         this.position = position;
