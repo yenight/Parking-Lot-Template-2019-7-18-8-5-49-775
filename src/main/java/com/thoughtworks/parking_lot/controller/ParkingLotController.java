@@ -39,10 +39,16 @@ public class ParkingLotController {
     }
 
     @GetMapping("/parking-lots")
-    public ResponseEntity getParkingLots(@RequestParam int page, @RequestParam int pageSize) {
+    public ResponseEntity getParkingLots(@RequestParam(defaultValue = "0") int page,
+                                         @RequestParam(defaultValue = "0") int pageSize) {
         Pageable pageable = PageRequest.of(page, pageSize, Sort.Direction.ASC, "id");
         Page<ParkingLot> parkingLots =  parkingLotRepository.findAll(pageable);
         return ResponseEntity.ok(parkingLots.getContent());
     }
 
+    @GetMapping("/parking-lots/{id}")
+    public ResponseEntity getParkingLotById(@PathVariable int id) {
+        ParkingLot parkingLot =  parkingLotRepository.findById((long)id).orElse(null);
+        return ResponseEntity.ok(parkingLot);
+    }
 }

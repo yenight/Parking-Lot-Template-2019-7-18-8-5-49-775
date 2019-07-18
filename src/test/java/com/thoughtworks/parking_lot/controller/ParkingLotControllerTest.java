@@ -106,4 +106,18 @@ public class ParkingLotControllerTest {
                         "    }\n" +
                         "]"));
     }
+
+    @Test
+    @Transactional
+    public void should_return_parking_lot_when_request_find_parking_lots_by_id_api() throws Exception {
+        mockMvc.perform(get("/parking-lots/1"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().json("{\n" +
+                        "    \"id\": 1,\n" +
+                        "    \"name\": \"aaa\",\n" +
+                        "    \"capacity\": 20,\n" +
+                        "    \"position\": \"zhuhai\"\n" +
+                        "}"));
+    }
 }
