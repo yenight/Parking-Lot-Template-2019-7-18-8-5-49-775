@@ -1,7 +1,7 @@
 drop table parking_lot if exists;
 
 drop sequence if exists hibernate_sequence ;
-create sequence hibernate_sequence start with 1 increment by 1 ;
+create sequence hibernate_sequence start with 26 increment by 1 ;
 create table parking_lot
 (
     id       bigint       not null,

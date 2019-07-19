@@ -22,10 +22,10 @@ public class ParkingLotController {
     @PostMapping("/parking-lots")
     public ResponseEntity createParkingLot(@RequestBody ParkingLot parkingLot) {
         try {
-            if (parkingLot.getName() == null) {
-                throw new Exception();
-            }
-            ParkingLot createdParkingLot = parkingLotRepository.save(parkingLot);
+//            if (parkingLot.getName() == null) {
+//                throw new Exception();
+//            }
+            ParkingLot createdParkingLot = parkingLotRepository.saveAndFlush(parkingLot);
             return ResponseEntity.ok(createdParkingLot);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
