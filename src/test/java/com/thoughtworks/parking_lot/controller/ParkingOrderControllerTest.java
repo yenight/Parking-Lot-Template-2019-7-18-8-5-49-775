@@ -13,6 +13,7 @@ import javax.transaction.Transactional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -31,7 +32,7 @@ public class ParkingOrderControllerTest {
         mockMvc.perform(post("/parking-orders")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content("{\n" +
-                        "  \"parkingLotName\": \"first\",\n" +
+                        "  \"parkingLotName\": \"aaa\",\n" +
                         "  \"numberPlate\": 123,\n" +
                         "  \"createdTime\": 1563701889,\n" +
                         "  \"leavedTime\": 0,\n" +
@@ -40,7 +41,16 @@ public class ParkingOrderControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.numberPlate").value("123"))
-                .andExpect(jsonPath("$.parkingLotName").value("first"));
+                .andExpect(jsonPath("$.parkingLotName").value("aaa"));
+    }
+
+    @Test
+    @Transactional
+    public void should_return_order_when_request_update_an_order_api() throws Exception {
+        mockMvc.perform(put("/parking-orders/26"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.orderStatus").value(false));
     }
 
 }
