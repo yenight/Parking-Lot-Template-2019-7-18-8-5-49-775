@@ -1,5 +1,6 @@
 package com.thoughtworks.parking_lot.controller;
 
+import com.thoughtworks.parking_lot.Exception.NoParkingSpaceException;
 import com.thoughtworks.parking_lot.model.ParkingLot;
 import com.thoughtworks.parking_lot.model.ParkingOrder;
 import com.thoughtworks.parking_lot.repository.ParkingLotRepository;
@@ -20,8 +21,13 @@ public class ParkingOrderController {
     @Autowired
     private ParkingLotRepository parkingLotRepository;
 
+    @GetMapping("/parking-orders")
+    public ResponseEntity findOrders() {
+        return ResponseEntity.ok(parkingLotRepository.findAll());
+    }
+
     @PostMapping("/parking-orders")
-    public ResponseEntity createOrder(@RequestBody ParkingOrder order) {
+    public ResponseEntity createOrder(@RequestBody ParkingOrder order) throws NoParkingSpaceException {
         ParkingLot parkingLot = parkingLotRepository.findAll().stream()
                 .filter(x-> x.getName().equals(order.getParkingLotName()))
                 .findFirst()
@@ -34,7 +40,8 @@ public class ParkingOrderController {
                 .collect(Collectors.toList());
         assert parkingLot != null;
         if (parkingOrders.size() >= parkingLot.getCapacity()) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.badRequest().body("停车场已经满");
+            // throw new NoParkingSpaceException("停车场已经满");
         } else {
             ParkingOrder createdOrder = parkingOrderRepository.saveAndFlush(order);
             return ResponseEntity.ok(createdOrder);

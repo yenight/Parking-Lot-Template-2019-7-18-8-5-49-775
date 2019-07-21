@@ -1,5 +1,5 @@
 insert into parking_lot values (1, 20, 'aaa', 'zhuhai');
-insert into parking_lot values (2, 50, 'bbb', 'guangzhou');
+insert into parking_lot values (2, 1, 'bbb', 'guangzhou');
 insert into parking_lot values (3, 40, 'ccc', 'shenzhen');
 insert into parking_lot values (4, 30, 'ddd', 'zhuhai');
 insert into parking_lot values (5, 32, 'eee', 'shenzhen');

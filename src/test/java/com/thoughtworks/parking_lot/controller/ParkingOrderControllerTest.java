@@ -1,5 +1,7 @@
 package com.thoughtworks.parking_lot.controller;
 
+import com.thoughtworks.parking_lot.model.ParkingOrder;
+import com.thoughtworks.parking_lot.repository.ParkingOrderRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,9 @@ public class ParkingOrderControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    private ParkingOrderRepository parkingOrderRepository;
+
     @Test
     @Transactional
     public void should_return_order_when_request_create_an_order_api() throws Exception {
@@ -51,6 +56,25 @@ public class ParkingOrderControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.orderStatus").value(false));
+    }
+
+    @Test
+    @Transactional
+    public void should_return_null_when_request_create_an_order_api_with_parking_lot_has_not_space() throws Exception {
+        ParkingOrder parkingOrder = new ParkingOrder("bbb", 4399, 1563701889, 0, true);
+        parkingOrderRepository.save(parkingOrder);
+
+        mockMvc.perform(post("/parking-orders")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content("{\n" +
+                        "  \"parkingLotName\": \"bbb\",\n" +
+                        "  \"numberPlate\": 123456,\n" +
+                        "  \"createdTime\": 1563701889,\n" +
+                        "  \"leavedTime\": 0,\n" +
+                        "  \"orderStatus\": true\n" +
+                        "}"))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
     }
 
 }
