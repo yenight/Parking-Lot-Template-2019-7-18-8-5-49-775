@@ -47,7 +47,7 @@ public class ParkingOrderController {
         assert parkingOrder != null;
         if (parkingOrder.isOrderStatus()) {
             parkingOrder.setOrderStatus(false);
-            parkingOrder.setLeavedTime(Instant.now().toEpochMilli());
+            parkingOrder.setLeavedTime(Instant.now().getEpochSecond());
             return ResponseEntity.ok(parkingOrder);
         }
         return ResponseEntity.badRequest().build();
